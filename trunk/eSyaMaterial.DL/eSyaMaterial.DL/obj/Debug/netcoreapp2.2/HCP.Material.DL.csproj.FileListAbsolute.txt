@@ -1,0 +1,16 @@
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.csprojAssemblyReference.cache
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.csproj.CoreCompileInputs.cache
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.AssemblyInfoInputs.cache
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.AssemblyInfo.cs
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DL.deps.json
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DL.runtimeconfig.json
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DL.runtimeconfig.dev.json
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DL.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DL.pdb
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DO.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.IF.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.DO.pdb
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\bin\Debug\netcoreapp2.2\HCP.Material.IF.pdb
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.csproj.CopyComplete
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DL\eSyaMaterial.DL\obj\Debug\netcoreapp2.2\HCP.Material.DL.pdb

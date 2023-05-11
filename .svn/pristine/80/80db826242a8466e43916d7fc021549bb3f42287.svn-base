@@ -1,0 +1,87 @@
+﻿using eSyaMaterial.DO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace eSyaMaterial.IF
+{
+    public class IF_ItemGroupCategory
+    {
+        #region ItemGroup
+        public List<DO_ItemGroup> GetItemGroup()
+        {
+            var result = new IF_ItemGroupCategory().GetItemGroup();
+            return result.ToList();
+        }
+        public DO_ItemGroup GetItemGroupByID(int ItemGroupID)
+        {
+            var result = new IF_ItemGroupCategory().GetItemGroupByID(ItemGroupID);
+            return result;
+        }
+        public DO_ReturnParameter AddOrUpdateItemGroup(DO_ItemGroup obj)
+        {
+            return new IF_ItemGroupCategory().AddOrUpdateItemGroup(obj);
+        }
+        #endregion
+        #region ItemCategory
+        public List<DO_ItemCategory> GetItemCategory()
+        {
+            var result = new IF_ItemGroupCategory().GetItemCategory();
+            return result.ToList();
+        }
+        public DO_ItemCategory GetItemCategoryByID(int ItemCategory)
+        {
+            var result = new IF_ItemGroupCategory().GetItemCategoryByID(ItemCategory);
+            return result;
+        }
+        public DO_ReturnParameter AddOrUpdateItemCategory(DO_ItemCategory obj)
+        {
+            return new IF_ItemGroupCategory().AddOrUpdateItemCategory(obj);
+        }
+        #endregion
+        #region SubCategory
+        public List<DO_ItemSubCategory> GetItemSubCategoryByCateID(int ItemCategory)
+        {
+            var result = new IF_ItemGroupCategory().GetItemSubCategoryByCateID(ItemCategory);
+            return result.ToList();
+        }
+        public DO_ItemSubCategory GetItemSubCategoryByID(int ItemSubCategory)
+        {
+            var result = new IF_ItemGroupCategory().GetItemSubCategoryByID(ItemSubCategory);
+            return result;
+        }
+        public DO_ReturnParameter AddOrUpdateItemSubCategory(DO_ItemSubCategory obj)
+        {
+            return new IF_ItemGroupCategory().AddOrUpdateItemSubCategory(obj);
+        }
+        public List<DO_ItemSParameter> GetItemSParameter()
+        {
+            var result = new IF_ItemGroupCategory().GetItemSParameter();
+            return result.ToList();
+        }
+        #endregion
+        #region ItemGroupCategoryMapping
+        public List<DO_ItemCategory> GetItemCategoryByItemGroupID(int ItemGroup)
+        {
+
+            var result = new IF_ItemGroupCategory().GetItemCategoryByItemGroupID(ItemGroup);
+            return result;
+
+        }
+        public List<DO_ItemSubCategory> GetItemCategoryByItemGroupCategory(int ItemGroup, int ItemCategory)
+        {
+            var result = new IF_ItemGroupCategory().GetItemCategoryByItemGroupCategory(ItemGroup, ItemCategory);
+            return result;
+        }
+        public DO_ReturnParameter ItemGroupCateSubCateMapping(DO_ItemGroupCategory obj)
+        {
+            return new IF_ItemGroupCategory().ItemGroupCateSubCateMapping(obj);
+        }
+        public DO_ItemGroupCategory GetMappinRecord(int ItemGroupID, int ItemCategory, int ItemSubCategory)
+        {
+            return new IF_ItemGroupCategory().GetMappinRecord(ItemGroupID, ItemCategory, ItemSubCategory);
+        }
+        #endregion
+    }
+}

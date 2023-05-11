@@ -1,0 +1,492 @@
+﻿using HCP.Material.DL.Entities;
+using HCP.Material.DO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using HCP.Material.IF;
+
+namespace HCP.Material.DL.Repository
+{
+    public class ItemControlRepository : IItemControlRepository
+    {
+        #region ItemGroup
+        public async Task<List<DO_ItemGroup>> GetItemGroup()
+        {
+            try
+            {
+                using (eSyaEnterprise db = new eSyaEnterprise())
+                {
+                    var result = db.GtEiitgr
+                                 .Select(x => new DO_ItemGroup
+                                 {
+                                     ItemGroupId = x.ItemGroup,
+                                     ItemGroupDesc = x.ItemGroupDesc,
+                                     ActiveStatus = x.ActiveStatus
+                                 }
+                        ).ToListAsync();
+                    return await result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<DO_ItemGroup> GetItemGroupByID(int ItemGroupID)
+        {
+            try
+            {
+                using (eSyaEnterprise db = new eSyaEnterprise())
+                {
+                    var result = db.GtEiitgr
+                        .Where(i => i.ItemGroup == ItemGroupID)
+                                 .Select(x => new DO_ItemGroup
+                                 {
+                                     ItemGroupId = x.ItemGroup,
+                                     ItemGroupDesc = x.ItemGroupDesc,
+                                     ActiveStatus = x.ActiveStatus
+                                 }
+                        ).FirstOrDefaultAsync();
+                    return await result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<DO_ReturnParameter> AddOrUpdateItemGroup(DO_ItemGroup obj)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (obj.ItemGroupId == null || obj.ItemGroupId == 0)
+                        {
+                            var RecordExist = db.GtEiitgr.Where(w => w.ItemGroupDesc == obj.ItemGroupDesc).Count();
+                            if (RecordExist > 0)
+                            {
+                                return new DO_ReturnParameter() { Status = false, Message = "Item Group Already Exists" };
+                            }
+                            else
+                            {
+
+
+                                var newItemGroupId = db.GtEiitgr.Select(a => (int)a.ItemGroup).DefaultIfEmpty(0).Max() + 1;
+
+                                var itemgroup = new GtEiitgr
+                                {
+                                    ItemGroup = newItemGroupId,
+                                    ItemGroupDesc = obj.ItemGroupDesc,
+                                    ActiveStatus = obj.ActiveStatus,
+                                    FormId=obj.FormID,
+                                    CreatedBy=obj.UserID,
+                                    CreatedOn=obj.CreatedOn,
+                                    CreatedTerminal = obj.TerminalID
+                            };
+                                db.GtEiitgr.Add(itemgroup);
+
+                            }
+                        }
+                        else
+                        {
+                            if (!obj.ActiveStatus)
+                            {
+                                var LinkExist = db.GtEiitgc.Where(w => w.ItemGroup == obj.ItemGroupId && w.ActiveStatus).Count();
+                                if (LinkExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "This Item Group is linked to an Item Category. Please unlink it before deactivating" };
+                                }
+                            }
+                            var updatedItemGroup = db.GtEiitgr.Where(w => w.ItemGroup == obj.ItemGroupId).FirstOrDefault();
+                            if (updatedItemGroup.ItemGroupDesc != obj.ItemGroupDesc)
+                            {
+                                var RecordExist = db.GtEiitgr.Where(w => w.ItemGroupDesc == obj.ItemGroupDesc).Count();
+                                if (RecordExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "Item Group Description Already Exists" };
+                                }
+
+                            }
+                            updatedItemGroup.ItemGroupDesc = obj.ItemGroupDesc;
+                            updatedItemGroup.ActiveStatus = obj.ActiveStatus;
+                            updatedItemGroup.ModifiedBy = obj.UserID;
+                            updatedItemGroup.ModifiedOn = obj.CreatedOn;
+                            updatedItemGroup.ModifiedTerminal = obj.TerminalID;
+
+                        }
+
+                            await db.SaveChangesAsync();
+                            dbContext.Commit();
+                            return new DO_ReturnParameter { Status = true };
+
+
+                        }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        #endregion
+        #region ItemCategory
+        public async Task<List<DO_ItemCategory>> GetItemCategory()
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitct
+                             .Select(c => new DO_ItemCategory
+                             {
+                                 ItemCategory = c.ItemCategory,
+                                 ItemCategoryDesc = c.ItemCategoryDesc,
+                                 ActiveStatus=c.ActiveStatus
+                             }
+                            ).ToListAsync();
+                return await result;
+            }
+
+        }
+        public async Task<DO_ItemCategory> GetItemCategoryByID(int ItemCategory)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitct
+                    .Where(c => c.ItemCategory == ItemCategory)
+                    .Select(s => new DO_ItemCategory
+                    {
+                        ItemCategoryDesc = s.ItemCategoryDesc,
+                        BudgetAmount = s.RevisedBudgetAmount,
+                        CommittmentAmount = s.ComittmentAmount,
+                        ActiveStatus = s.ActiveStatus
+                    }).FirstOrDefaultAsync();
+
+                return await result;
+            }
+        }
+        public async Task<DO_ReturnParameter> AddOrUpdateItemCategory(DO_ItemCategory obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (obj.ItemCategory == null || obj.ItemCategory == 0)
+                        {
+                            var RecordExist = db.GtEiitct.Where(w => w.ItemCategoryDesc == obj.ItemCategoryDesc).Count();
+                            if (RecordExist > 0)
+                            {
+                                return new DO_ReturnParameter() { Status = false, Message = "Item Category Already Exists" };
+                            }
+                            else
+                            {
+
+
+                                var newItemCategoryId = db.GtEiitct.Select(a => (int)a.ItemCategory).DefaultIfEmpty(0).Max() + 1;
+
+                                var itemcategory = new GtEiitct
+                                {
+                                    ItemCategory = newItemCategoryId,
+                                    ItemCategoryDesc = obj.ItemCategoryDesc,
+                                    OriginalBudgetAmount = obj.BudgetAmount,
+                                    RevisedBudgetAmount = obj.BudgetAmount,
+                                    ComittmentAmount = obj.CommittmentAmount,
+                                    ActiveStatus = obj.ActiveStatus,
+
+                                    FormId = obj.FormID,
+                                    CreatedBy = obj.UserID,
+                                    CreatedOn = obj.CreatedOn,
+                                    CreatedTerminal = obj.TerminalID
+                                };
+                                db.GtEiitct.Add(itemcategory);
+
+                            }
+                        }
+                        else
+                        {
+                            if (!obj.ActiveStatus)
+                            {
+                                var LinkExist = db.GtEiitgc.Where(w => w.ItemCategory == obj.ItemCategory && w.ActiveStatus).Count();
+                                if (LinkExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "This Item Catergory is linked to an Item Group. Please unlink it before deactivating" };
+                                }
+                            }
+                            
+                            var updatedItemCategory = db.GtEiitct.Where(w => w.ItemCategory == obj.ItemCategory).FirstOrDefault();
+                            if(updatedItemCategory.ItemCategoryDesc!=obj.ItemCategoryDesc)
+                            {
+                                var RecordExist = db.GtEiitct.Where(w => w.ItemCategoryDesc == obj.ItemCategoryDesc).Count();
+                                if (RecordExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "Item Category Description Already Exists" };
+                                }
+                            }
+                            updatedItemCategory.ItemCategoryDesc = obj.ItemCategoryDesc;
+                            updatedItemCategory.RevisedBudgetAmount = obj.BudgetAmount;
+                            updatedItemCategory.ComittmentAmount = obj.CommittmentAmount;
+                            updatedItemCategory.ActiveStatus = obj.ActiveStatus;
+
+                            updatedItemCategory.FormId = obj.FormID;
+                            updatedItemCategory.ModifiedBy = obj.UserID;
+                            updatedItemCategory.ModifiedOn = obj.CreatedOn;
+                            updatedItemCategory.ModifiedTerminal = obj.TerminalID;
+
+                        }
+
+                            await db.SaveChangesAsync();
+                            dbContext.Commit();
+                            return new DO_ReturnParameter { Status = true };
+                        
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        #endregion
+        #region SubCategory
+        public async Task<List<DO_ItemSubCategory>> GetItemSubCategoryByCateID(int ItemCategory)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitsc
+                    .Where(c => c.ItemCategory == ItemCategory)
+                    .Select(s => new DO_ItemSubCategory
+                    {
+                        ItemSubCategory = s.ItemSubCategory,
+                        ItemSubCategoryDesc = s.ItemSubCategoryDesc,
+                        ActiveStatus=s.ActiveStatus
+                    }).ToListAsync();
+                return await result;
+            }
+        }
+        public async Task<DO_ItemSubCategory> GetItemSubCategoryByID(int ItemSubCategory)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitsc
+                    .Where(c => c.ItemSubCategory == ItemSubCategory)
+                    .Select(s => new DO_ItemSubCategory
+                    {
+                        ItemSubCategoryDesc = s.ItemSubCategoryDesc,
+                        ActiveStatus = s.ActiveStatus,
+                    }).FirstOrDefaultAsync();
+
+                return await result;
+            }
+        }
+        public async Task<DO_ReturnParameter> AddOrUpdateItemSubCategory(DO_ItemSubCategory obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        if (obj.ItemSubCategory == null || obj.ItemSubCategory == 0)
+                        {
+                            var RecordExist = db.GtEiitsc.Where(w => w.ItemSubCategoryDesc == obj.ItemSubCategoryDesc && w.ItemCategory == obj.ItemCategory).Count();
+                            if (RecordExist > 0)
+                            {
+                                return new DO_ReturnParameter() { Status = false, Message = "Item Sub Category Already Exists" };
+                            }
+                            else
+                            {
+
+                                var newItemSubCategoryId = db.GtEiitsc.Select(a => (int)a.ItemSubCategory).DefaultIfEmpty(0).Max() + 1;
+
+                                var itemsubcategory = new GtEiitsc
+                                {
+                                    ItemCategory = obj.ItemCategory,
+                                    ItemSubCategory = newItemSubCategoryId,
+                                    ItemSubCategoryDesc = obj.ItemSubCategoryDesc,
+                                    ActiveStatus = obj.ActiveStatus,
+
+                                    FormId = obj.FormID,
+                                    CreatedBy = obj.UserID,
+                                    CreatedOn = obj.CreatedOn,
+                                    CreatedTerminal = obj.TerminalID
+                                };
+                                db.GtEiitsc.Add(itemsubcategory);
+                            }
+                        }
+                        else
+                        {
+                            if (!obj.ActiveStatus)
+                            {
+                                var LinkExist = db.GtEiitgc.Where(w => w.ItemCategory == obj.ItemCategory && w.ActiveStatus).Count();
+                                if (LinkExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "This Sub Catergory is linked to an Item Group. Please unlink it before deactivating" };
+                                }
+                            }
+                            var updatedItemSubCategory = db.GtEiitsc.Where(w => w.ItemSubCategory == obj.ItemSubCategory).FirstOrDefault();
+                            if(updatedItemSubCategory.ItemSubCategoryDesc!=obj.ItemSubCategoryDesc)
+                            {
+                                var RecordExist = db.GtEiitsc.Where(w => w.ItemSubCategoryDesc == obj.ItemSubCategoryDesc && w.ItemCategory == obj.ItemCategory).Count();
+                                if (RecordExist > 0)
+                                {
+                                    return new DO_ReturnParameter() { Status = false, Message = "Item Sub Category Description Already Exists" };
+                                }
+                            }
+                            updatedItemSubCategory.ItemCategory = obj.ItemCategory;
+                            updatedItemSubCategory.ItemSubCategoryDesc = obj.ItemSubCategoryDesc;
+                            updatedItemSubCategory.ActiveStatus = obj.ActiveStatus;
+
+                            updatedItemSubCategory.FormId = obj.FormID;
+                            updatedItemSubCategory.ModifiedBy = obj.UserID;
+                            updatedItemSubCategory.ModifiedOn = obj.CreatedOn;
+                            updatedItemSubCategory.ModifiedTerminal = obj.TerminalID;
+
+
+                        }
+
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+                        return new DO_ReturnParameter { Status = true };
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        #endregion
+        #region ItemGroupCategoryMapping
+        public async Task<List<DO_ItemCategory>> GetItemCategoryByItemGroupID(int ItemGroup)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitgc
+                    .Join(db.GtEiitct,
+                    gc => gc.ItemCategory,
+                    ct => ct.ItemCategory,
+                    (gc, ct) => new { gc, ct })
+                    .Where(w => w.gc.ItemGroup == ItemGroup)
+                    .Select(s => new DO_ItemCategory
+                    {
+                        ItemCategory = s.gc.ItemCategory,
+                        ItemCategoryDesc = s.ct.ItemCategoryDesc,
+                       // ActiveStatus=s.gc.ActiveStatus
+                    }
+                    ).Distinct().ToListAsync();
+
+                return await result;
+            }
+        }
+        public async Task<List<DO_ItemSubCategory>> GetItemCategoryByItemGroupCategory(int ItemGroup, int ItemCategory)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitgc
+                    .Join(db.GtEiitsc,
+                    gc => gc.ItemSubCategory,
+                    sc => sc.ItemSubCategory,
+                    (gc, sc) => new { gc, sc })
+                    .Where(w => w.gc.ItemGroup == ItemGroup && w.gc.ItemCategory == ItemCategory)
+                    .Select(s => new DO_ItemSubCategory
+                    {
+                        ItemSubCategory = s.gc.ItemSubCategory,
+                        ItemSubCategoryDesc = s.sc.ItemSubCategoryDesc,
+                        ActiveStatus=s.gc.ActiveStatus
+
+                    }).Distinct().ToListAsync();
+
+                return await result;
+            }
+        }
+        public async Task<DO_ReturnParameter> ItemGroupCateSubCateMapping(DO_ItemGroupCategory obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        if (obj.flag == 0)
+                        {
+                            var RecordExist = db.GtEiitgc.Where(w => w.ItemGroup == obj.ItemGroupID && w.ItemCategory == obj.ItemCategory && w.ItemSubCategory == obj.ItemSubCategory).Count();
+                            if (RecordExist > 0)
+                            {
+                                return new DO_ReturnParameter() { Status = false, Message = "Record Already Exists" };
+                            }
+                            else
+                            {
+
+
+                                var mappingrecord = new GtEiitgc
+                                {
+                                    ItemGroup = obj.ItemGroupID,
+                                    ItemCategory = obj.ItemCategory,
+                                    ItemSubCategory = obj.ItemSubCategory,
+                                    ActiveStatus = obj.ActiveStatus,
+                                    FormId = obj.FormID,
+                                    CreatedBy = obj.UserID,
+                                    CreatedOn = obj.CreatedOn,
+                                    CreatedTerminal = obj.TerminalID
+
+                                };
+                                db.GtEiitgc.Add(mappingrecord);
+
+
+                            }
+                        }
+
+                        else if (obj.flag == 1)
+                        {
+                            var updatedMappingRecord = db.GtEiitgc.Where(w => w.ItemGroup == obj.ItemGroupID && w.ItemCategory == obj.ItemCategory && w.ItemSubCategory == obj.ItemSubCategory).FirstOrDefault();
+                            updatedMappingRecord.ActiveStatus = obj.ActiveStatus;
+                            updatedMappingRecord.FormId = obj.FormID;
+                            updatedMappingRecord.ModifiedBy = obj.UserID;
+                            updatedMappingRecord.ModifiedOn = obj.CreatedOn;
+                            updatedMappingRecord.ModifiedTerminal = obj.TerminalID;
+                        }
+
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+                        return new DO_ReturnParameter { Status = true };
+                    }
+
+
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        public async Task<DO_ItemGroupCategory> GetMappinRecord(int ItemGroupID, int ItemCategory, int ItemSubCategory)
+        {
+            using (eSyaEnterprise db = new eSyaEnterprise())
+            {
+                var result = db.GtEiitgc
+                    .Where(w => w.ItemGroup == ItemGroupID && w.ItemCategory == ItemCategory && w.ItemSubCategory == ItemSubCategory)
+                             .Select(s => new DO_ItemGroupCategory
+                             {
+                                 ActiveStatus = s.ActiveStatus
+                             }
+                            ).FirstOrDefaultAsync();
+                return await result;
+            }
+        }
+        #endregion
+    }
+}

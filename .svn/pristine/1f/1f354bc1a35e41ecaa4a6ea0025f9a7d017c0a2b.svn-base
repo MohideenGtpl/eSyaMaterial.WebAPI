@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using eSyaMaterial.DO;
+
+namespace eSyaMaterial.IF
+{
+    public interface IItemCodesRepository
+    {
+        Task<List<DO_ItemCodes>> GetItemMaster(int ItemGroup, int ItemCategory, int ItemSubCategory);
+
+        Task<DO_ItemCodes> GetItemCodesInfo(int ItemCode);
+
+        Task<DO_ReturnParameter> InsertItemCodes(DO_ItemCodes ItemCodes);
+
+        Task<DO_ReturnParameter> UpdateItemCodes(DO_ItemCodes ItemCodes);
+    }
+}

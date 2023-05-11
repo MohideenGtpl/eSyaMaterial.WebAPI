@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\eSyaMaterial.DO\eSyaMaterial.DO\eSyaMaterial.DO.csproj" />
+  </ItemGroup>
+
+</Project>

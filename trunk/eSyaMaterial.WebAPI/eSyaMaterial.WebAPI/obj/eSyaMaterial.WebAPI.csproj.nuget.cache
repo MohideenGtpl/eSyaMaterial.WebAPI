@@ -1,0 +1,13 @@
+{
+  "version": 1,
+<<<<<<< .mine
+  "dgSpecHash": "zih1DjsiUrNF1+tPj+nbqPwbie9YqukJOymCmc8extH03XkbFpGsrN07MPsaAj9zkUZkw28he7HgueSnak0nUQ==",
+  "success": true
+||||||| .r35
+  "dgSpecHash": "IekPRcj7M+xR2cEa0359JU5v0aLFJy7hRZUNyUq7Nns3+6mL1CbDGp46/dWv2cCQIx3ruflK0rN1fFkLjE1NWg==",
+  "success": true
+=======
+  "dgSpecHash": "+QB7aqUHAUuOizyAg1wiVzjHAYNEmbt0wxfcr1qMWMosxnHa7Sw0pUvFRjd+Pt1HaeRtY2ej5all7AzME6CUIg==",
+  "success": false
+>>>>>>> .r36
+}

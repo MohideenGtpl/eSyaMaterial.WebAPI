@@ -1,0 +1,179 @@
+﻿using System;
+using System.Collections.Generic;
+using HCP.Material.DO;
+using HCP.Material.IF;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+
+namespace HCP.Material.WebAPI.Controllers
+{
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class ItemCodesController : ControllerBase
+    {
+        private readonly IItemCodesRepository _ItemCodesRepository;
+        public ItemCodesController(IItemCodesRepository itemCodesRepository)
+        {
+            _ItemCodesRepository = itemCodesRepository;
+        }
+
+        #region Item Master
+        /// <summary>
+        /// Getting  Item LIst.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemList()
+        {
+            var i_Codes = await _ItemCodesRepository.GetItemList();
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Getting  Selected Item Details.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemDetails(int ItemCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetItemDetails(ItemCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Getting  Item Master LIst.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemMaster(int ItemGroup, int ItemCategory, int ItemSubCategory)
+        {
+            var i_Codes = await _ItemCodesRepository.GetItemMaster(ItemGroup, ItemCategory, ItemSubCategory);
+            return Ok(i_Codes);
+        }
+        
+        /// <summary>
+        /// Getting  Item Parameter List.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemParameterList(int ItemCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetItemParameterList(ItemCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Insert Item Codes.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertItemCodes(DO_ItemCodes ItemCodes)
+        {
+            var msg = await _ItemCodesRepository.InsertItemCodes(ItemCodes);
+            return Ok(msg);
+        }
+
+        /// <summary>
+        /// Update Item Codes.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> UpdateItemCodes(DO_ItemCodes ItemCodes)
+        {
+            var msg = await _ItemCodesRepository.UpdateItemCodes(ItemCodes);
+            return Ok(msg);
+
+        }
+
+        #endregion Item Master
+
+        #region Item Business Link
+        /// <summary>
+        /// Getting  Custodian Store.
+        /// UI Reffered - Item Business Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetCustodianStore(int BusinessKey, int ItemCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetCustodianStore(BusinessKey, ItemCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Getting  Item List.
+        /// UI Reffered - Business Location
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemTree()
+        {
+            var b_items = await _ItemCodesRepository.GetItemTree();
+            return Ok(b_items);
+
+        }
+        public async Task<IActionResult> GetAccountingStoreForItem(int businesskey, int itemcode, string accountingType)
+        {
+            var msg = await _ItemCodesRepository.GetAccountingStoreForItem(businesskey, itemcode, accountingType);
+            return Ok(msg);
+        }
+        [HttpPost]
+        public async Task<IActionResult> InsertAccountingStoreForItem(List<DO_ItemAccountingStore> obj)
+        {
+            var msg = await _ItemCodesRepository.InsertAccountingStoreForItem(obj);
+            return Ok(msg);
+        }
+
+        public async Task<IActionResult> GetCustodianStoreListbyAccountingStore(int Businesskey, int Itemcode, int accountingcode)
+        {
+            var msg = await _ItemCodesRepository.GetCustodianStoreListbyAccountingStore(Businesskey, Itemcode, accountingcode);
+            return Ok(msg);
+        }
+        /// <summary>
+        /// Insert Item Codes.
+        /// UI Reffered - Item Codes
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertOrUpdateItemCodetoCustodianStore(List<DO_ItemCodeLinkCustodianStore> obj)
+        {
+            var msg = await _ItemCodesRepository.InsertOrUpdateItemCodetoCustodianStore(obj);
+            return Ok(msg);
+        }
+
+        public async Task<IActionResult> GetStoreClassStorebyBusinessKey(int businesskey)
+        {
+            var msg = await _ItemCodesRepository.GetStoreClassStorebyBusinessKey(businesskey);
+            return Ok(msg);
+        }
+
+        public async Task<IActionResult> GetCustodianStoreListbyAccountType(int Businesskey, int Itemcode, string actype)
+        {
+            var msg = await _ItemCodesRepository.GetCustodianStoreListbyAccountType(Businesskey, Itemcode, actype);
+            return Ok(msg);
+        }
+        #endregion Item Business Link
+
+        #region Item Reorder Level
+        /// <summary>
+        /// Getting  Item Reorder Level By Business Key & Store Code.
+        /// UI Reffered - Item Reorder Level
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetItemReorderLevel(int BusinessKey, int StoreCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetItemReorderLevel(BusinessKey, StoreCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Insert Item Reorder Level.
+        /// UI Reffered - Item Reorder Level
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertOrUpdateItemReorderLevel(List<DO_ItemReorderLevel> sd)
+        {
+            var msg = await _ItemCodesRepository.InsertOrUpdateItemReorderLevel(sd);
+            return Ok(msg);
+        }
+        #endregion Item Reorder Level
+    }
+}

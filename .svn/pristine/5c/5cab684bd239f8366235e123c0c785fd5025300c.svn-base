@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace eSyaMaterial.DO
+{
+    public class DO_ItemConfigurartion
+    {
+        public List<DO_ItemGroup> l_ItemGroup { get; set; }
+        public List<DO_ItemCategory> l_ItemCategory { get; set; }
+        public List<DO_ItemSubCategory> l_ItemSubCategory { get; set; }
+        public List<DO_ItemCodes> l_ItemCodes { get; set; }
+    }
+
+    public class DO_ItemCodes
+    {
+        public int ItemCode { get; set; }
+        public int ItemGroup { get; set; }
+        public int ItemCategory { get; set; }
+        public int ItemSubCategory { get; set; }
+        public string ItemDescription { get; set; }
+        public int UnitOfMeasure { get; set; }
+        public int PackUnit { get; set; }
+        public string PackUnitDesc { get; set; }
+        public int PackSize { get; set; }
+        public string InventoryClass { get; set; }
+        public string ItemClass { get; set; }
+        public string ItemSource { get; set; }
+        public string ItemCriticality { get; set; }
+        public string BarCodeID { get; set; }
+        public bool UsageStatus { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+
+        public List<DO_ItemParameter> l_ItemParm { get; set; }
+    }
+
+    public class DO_ItemParameter
+    {
+        public int ItemCode { get; set; }
+        public int ParameterID { get; set; }
+        public decimal ParmPerc { get; set; }
+        public bool ParmAction { get; set; }
+        public string ParmDesc { get; set; }
+        public decimal ParmValue { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+
+    public class DO_ItemCustodianLink
+    {
+        public int BusinessKey { get; set; }
+        public int ItemCode { get; set; }
+        public bool IsAccountingStoreLinked { get; set; }
+        public bool IsItemCustodianLinked { get; set; }
+        public bool IsItemWhereUsedLinked { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+
+    public class DO_ItemBusinessLink
+    {
+        public int BusinessKey { get; set; }
+        public int ItemCode { get; set; }
+        public int AccountingStore { get; set; }
+        public string AccountingStoreDesc { get; set; }
+        public int CustodianStore { get; set; }
+        public string StoreDesc { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+}

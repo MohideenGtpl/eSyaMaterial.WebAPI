@@ -1,0 +1,8 @@
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\bin\Release\netcoreapp2.2\HCP.Material.DO.deps.json
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\bin\Release\netcoreapp2.2\HCP.Material.DO.dll
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\bin\Release\netcoreapp2.2\HCP.Material.DO.pdb
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\obj\Release\netcoreapp2.2\HCP.Material.DO.csproj.CoreCompileInputs.cache
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\obj\Release\netcoreapp2.2\HCP.Material.DO.AssemblyInfoInputs.cache
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\obj\Release\netcoreapp2.2\HCP.Material.DO.AssemblyInfo.cs
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\obj\Release\netcoreapp2.2\HCP.Material.DO.dll
+D:\eSya Project\Solution\Project_eSyaWebAPI\eSyaMaterial.WebAPI\trunk\eSyaMaterial.DO\eSyaMaterial.DO\obj\Release\netcoreapp2.2\HCP.Material.DO.pdb

@@ -1,0 +1,81 @@
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using HCP.Material.IF;
+using HCP.Material.DL.Repository;
+using Microsoft.AspNetCore.Http;
+using HCP.Material.WebAPI.Utility;
+using HCP.Material.DL.Entities;
+
+namespace HCP.Material.WebAPI
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IItemControlRepository, ItemControlRepository>();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(HttpAuthAttribute));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //eSyaEnterprise._connString = Configuration.GetConnectionString("dbConn_eSyaEnterprise");
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
+            services.AddScoped<ICommonRepository, CommonRepository>();
+            services.AddScoped<IItemCodesRepository, ItemCodesRepository>();
+            services.AddScoped<IItemControlRepository, ItemControlRepository>();
+            services.AddScoped<IRulesRepository, RulesRepository>();
+        }
+
+        
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.ConfigureExceptionHandler();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            app.UseHttpsRedirection();
+            app.UseMvc(routes =>
+            {
+                routes
+                    .MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}")
+                    .MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
+            });
+
+            app.UseMvc();
+        }
+    }
+}

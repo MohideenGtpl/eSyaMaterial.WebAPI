@@ -1,0 +1,235 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+namespace eSyaInventoryMgmt.DL.Entities
+{
+    public partial class eSyaEnterpriseContext : DbContext
+    {
+        public static string _connString = "Server=49.206.224.3,1433\\GTPLWEB;Database=eSyaEnterprise;user id=gtpl;password=gtpl@12345;";
+        //public static string _connString = "Server=FATHY-PC\\SQLEXPRESS2014;Database=eSyaEnterprise_Demo;user id=gtpl;password=gtpl@12345;";
+
+        public eSyaEnterpriseContext()
+        {
+        }
+
+        public eSyaEnterpriseContext(DbContextOptions<eSyaEnterpriseContext> options)
+            : base(options)
+        {
+        }
+
+        //public virtual DbSet<GtCmcofa> GtCmcofa { get; set; }
+        //public virtual DbSet<GtCmstcd> GtCmstcd { get; set; }
+        //public virtual DbSet<GtCmsugr> GtCmsugr { get; set; }
+        //public virtual DbSet<GtCmtxst> GtCmtxst { get; set; }
+        public virtual DbSet<GtImitct> GtImitct { get; set; }
+        public virtual DbSet<GtImitgc> GtImitgc { get; set; }
+        public virtual DbSet<GtImitgr> GtImitgr { get; set; }
+        public virtual DbSet<GtImitsc> GtImitsc { get; set; }
+        //public virtual DbSet<GtImvnbd> GtImvnbd { get; set; }
+        //public virtual DbSet<GtImvnbl> GtImvnbl { get; set; }
+        //public virtual DbSet<GtImvnil> GtImvnil { get; set; }
+        //public virtual DbSet<GtImvnln> GtImvnln { get; set; }
+        //public virtual DbSet<GtImvnpn> GtImvnpn { get; set; }
+        //public virtual DbSet<GtImvnrg> GtImvnrg { get; set; }
+        //public virtual DbSet<GtImvnsd> GtImvnsd { get; set; }
+        //public virtual DbSet<GtImvnsg> GtImvnsg { get; set; }
+        public virtual DbSet<GtImitcp> GtImitcp { get; set; }
+        public virtual DbSet<GtImitsp> GtImitsp { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseSqlServer("Server=49.206.224.3,1433\\GTPLWEB;Database=eSyaEnterprise;user id=gtpl;password=gtpl@12345;");
+                optionsBuilder.UseSqlServer(_connString);
+            }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+
+          
+
+            modelBuilder.Entity<GtImitct>(entity =>
+            {
+                entity.HasKey(e => e.ItemCategory);
+
+                entity.ToTable("GT_IMITCT");
+
+                entity.Property(e => e.ItemCategory).ValueGeneratedNever();
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.BudgetAmount).HasColumnType("numeric(18, 6)");
+
+                entity.Property(e => e.CommittmentAmount).HasColumnType("numeric(18, 6)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ItemCategoryDesc)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<GtImitgc>(entity =>
+            {
+                entity.HasKey(e => new { e.ItemGroupId, e.ItemCategory, e.ItemSubCategory });
+
+                entity.ToTable("GT_IMITGC");
+
+                entity.Property(e => e.ItemGroupId).HasColumnName("ItemGroupID");
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<GtImitgr>(entity =>
+            {
+                entity.HasKey(e => e.ItemGroupId);
+
+                entity.ToTable("GT_IMITGR");
+
+                entity.Property(e => e.ItemGroupId)
+                    .HasColumnName("ItemGroupID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ItemGroupDesc)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<GtImitsc>(entity =>
+            {
+                entity.HasKey(e => new { e.ItemCategory, e.ItemSubCategory });
+
+                entity.ToTable("GT_IMITSC");
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ItemSubCategoryDesc)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+           
+
+            modelBuilder.Entity<GtImitcp>(entity =>
+            {
+                entity.HasKey(e => new { e.ItemCategory, e.ItemSubCategory, e.ItemSptype });
+
+                entity.ToTable("GT_IMITCP");
+
+                entity.Property(e => e.ItemSptype).HasColumnName("ItemSPType");
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<GtImitsp>(entity =>
+            {
+                entity.HasKey(e => e.ItemSptype);
+
+                entity.ToTable("GT_IMITSP");
+
+                entity.Property(e => e.ItemSptype)
+                    .HasColumnName("ItemSPType")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ItemSptypeDesc)
+                    .IsRequired()
+                    .HasColumnName("ItemSPTypeDesc")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+        }
+    }
+}

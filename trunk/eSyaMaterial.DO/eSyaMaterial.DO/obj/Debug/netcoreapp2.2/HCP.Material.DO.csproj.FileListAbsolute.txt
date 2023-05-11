@@ -1,0 +1,8 @@
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\bin\Debug\netcoreapp2.2\HCP.Material.DO.deps.json
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\bin\Debug\netcoreapp2.2\HCP.Material.DO.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\bin\Debug\netcoreapp2.2\HCP.Material.DO.pdb
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\obj\Debug\netcoreapp2.2\HCP.Material.DO.csproj.CoreCompileInputs.cache
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\obj\Debug\netcoreapp2.2\HCP.Material.DO.AssemblyInfoInputs.cache
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\obj\Debug\netcoreapp2.2\HCP.Material.DO.AssemblyInfo.cs
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\obj\Debug\netcoreapp2.2\HCP.Material.DO.dll
+D:\OfficeWorkingProjects\AllWEBAPI\eSyaMaterial.WebAPI\eSyaMaterial.DO\eSyaMaterial.DO\obj\Debug\netcoreapp2.2\HCP.Material.DO.pdb

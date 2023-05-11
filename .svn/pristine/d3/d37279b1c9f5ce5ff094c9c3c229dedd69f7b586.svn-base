@@ -1,0 +1,264 @@
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using eSyaMaterial.IF;
+using eSyaMaterial.DL.Entities;
+using eSyaMaterial.DO;
+using System.Collections.Generic;
+
+namespace eSyaMaterial.DL.Repository
+{
+    public class ItemCodesRepository : IItemCodesRepository
+    {
+        public async Task<List<DO_ItemCodes>> GetItemMaster(int ItemGroup, int ItemCategory, int ItemSubCategory)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var result = await db.GtEiitcd
+                        .Where(x =>
+                              x.ItemGroup == ItemGroup && x.ItemCategory == ItemCategory && x.ItemSubCategory == ItemSubCategory)
+                        .Join(db.GtEcapcd,
+                         r => r.PackUnit,
+                         y => y.ApplicationCode,
+                        (r, y) => new DO_ItemCodes
+                        {
+                            ItemCode = r.ItemCode,
+                            ItemGroup = r.ItemGroup,
+                            ItemCategory = r.ItemCategory,
+                            ItemSubCategory = r.ItemSubCategory,
+                            ItemDescription = r.ItemDescription,
+                            UnitOfMeasure = r.UnitOfMeasure,
+                            PackUnit = r.PackUnit,
+                            PackUnitDesc = y.CodeDesc,
+                            PackSize = r.PackSize,
+                            InventoryClass = r.InventoryClass,
+                            ItemClass = r.ItemClass,
+                            ItemSource = r.ItemSource,
+                            ItemCriticality = r.ItemCriticality,
+                            BarCodeID = r.BarcodeCodeId,
+                            UsageStatus = r.UsageStatus,
+                            ActiveStatus = r.ActiveStatus
+                        }).ToListAsync();
+
+                    foreach (var obj in result)
+                    {
+                        if (obj.InventoryClass == "S")
+                        {
+                            obj.InventoryClass = "Stockable";
+                        }
+                        else
+                        {
+                            obj.InventoryClass = "Non-Stockable";
+                        }
+
+                        if (obj.ItemClass == "B")
+                        {
+                            obj.ItemClass = "Bought Out";
+                        }
+                        else if (obj.ItemClass == "C")
+                        {
+                            obj.ItemClass = "Consignment";
+                        }
+                        else if (obj.ItemClass == "I")
+                        {
+                            obj.ItemClass = "In-House";
+                        }
+                        else
+                        {
+                            obj.ItemClass = "Sub Contract";
+                        }
+
+                        if (obj.ItemSource == "L")
+                        {
+                            obj.ItemSource = "Local";
+                        }
+                        else if (obj.ItemSource == "I")
+                        {
+                            obj.ItemSource = "Imported";
+                        }
+                        else
+                        {
+                            obj.InventoryClass = "Out Station";
+                        }
+
+                        if (obj.ItemCriticality == "D")
+                        {
+                            obj.ItemCriticality = "Desirable";
+                        }
+                        else if (obj.ItemCriticality == "E")
+                        {
+                            obj.ItemCriticality = "Essential";
+                        }
+                        else
+                        {
+                            obj.ItemCriticality = "Vital";
+                        }
+                    }
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<DO_ItemCodes> GetItemCodesInfo(int ItemCode)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var ds = db.GtEiitcd
+                        .Where(w => w.ItemCode == ItemCode)
+                        .Select(r => new DO_ItemCodes
+                        {
+                            ItemCode = r.ItemCode,
+                            ItemGroup = r.ItemGroup,
+                            ItemCategory = r.ItemCategory,
+                            ItemSubCategory = r.ItemSubCategory,
+                            ItemDescription = r.ItemDescription,
+                            UnitOfMeasure = r.UnitOfMeasure,
+                            PackUnit = r.PackUnit,
+                            PackSize = r.UnitOfMeasure,
+                            InventoryClass = r.InventoryClass,
+                            ItemSource = r.ItemSource,
+                            ItemCriticality = r.ItemCriticality,
+                            BarCodeID = r.BarcodeCodeId,
+                            UsageStatus = r.UsageStatus,
+                            ActiveStatus = r.ActiveStatus
+                        }).FirstOrDefaultAsync();
+
+                    return await ds;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<DO_ReturnParameter> InsertItemCodes(DO_ItemCodes itemCodes)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        GtEiitcd is_itemDescExists = db.GtEiitcd.FirstOrDefault(u => u.ItemDescription.ToUpper().Replace(" ", "") == itemCodes.ItemDescription.ToUpper().Replace(" ", ""));
+                        if (is_itemDescExists != null)
+                        {
+                            return new DO_ReturnParameter() { Status = false, Message = "Item Description already Exists." };
+
+                        }
+
+                        int _itemCode = db.GtEiitcd.Select(c => c.ItemCode).DefaultIfEmpty().Max();
+                        _itemCode = _itemCode + 1;
+
+                        var b_Entity = new GtEiitcd
+                        {
+                            ItemCode = _itemCode,
+                            ItemGroup = itemCodes.ItemGroup,
+                            ItemCategory = itemCodes.ItemCategory,
+                            ItemSubCategory = itemCodes.ItemSubCategory,
+                            ItemDescription = itemCodes.ItemDescription,
+                            UnitOfMeasure = itemCodes.ItemGroup,
+                            PackUnit = itemCodes.ItemCategory,
+                            PackSize = itemCodes.ItemSubCategory,
+                            InventoryClass = itemCodes.InventoryClass,
+                            ItemClass = itemCodes.ItemClass,
+                            ItemSource = itemCodes.ItemSource,
+                            ItemCriticality = itemCodes.ItemCriticality,
+                            IsBusinessLinked = false,
+                            IsHsnlinked = false,
+                            BarcodeCodeId = itemCodes.BarCodeID,
+                            UsageStatus = false,
+                            ActiveStatus = itemCodes.ActiveStatus,
+                            FormId = itemCodes.FormID,
+                            CreatedBy = itemCodes.UserID,
+                            CreatedOn = System.DateTime.Now,
+                            CreatedTerminal = itemCodes.TerminalID
+                        };
+                        db.GtEiitcd.Add(b_Entity);
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+                        return new DO_ReturnParameter() { Status = true, Message = "Item Created Successfully." };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonRepository.GetValidationMessageFromException(ex));
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+
+        public async Task<DO_ReturnParameter> UpdateItemCodes(DO_ItemCodes itemCodes)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        GtEiitcd is_ItemExists = db.GtEiitcd.FirstOrDefault(be => be.ItemDescription.ToUpper().Replace(" ", "") == itemCodes.ItemDescription.ToUpper().Replace(" ", "") && be.ItemCode != itemCodes.ItemCode);
+                        if (is_ItemExists != null)
+                        {
+                            return new DO_ReturnParameter() { Status = false, Message = "Item Description already Exists." };
+
+                        }
+
+                        GtEiitcd b_Entity = db.GtEiitcd.Where(be => be.ItemCode == itemCodes.ItemCode).FirstOrDefault();
+                        if (b_Entity != null)
+                        {
+                            b_Entity.ItemGroup = itemCodes.ItemGroup;
+                            b_Entity.ItemCategory = itemCodes.ItemCategory;
+                            b_Entity.ItemSubCategory = itemCodes.ItemSubCategory;
+                            b_Entity.ItemDescription = itemCodes.ItemDescription;
+                            b_Entity.UnitOfMeasure = itemCodes.ItemGroup;
+                            b_Entity.PackUnit = itemCodes.ItemCategory;
+                            b_Entity.PackSize = itemCodes.ItemSubCategory;
+                            b_Entity.InventoryClass = itemCodes.InventoryClass;
+                            b_Entity.ItemClass = itemCodes.ItemClass;
+                            b_Entity.ItemSource = itemCodes.ItemSource;
+                            b_Entity.ItemCriticality = itemCodes.ItemCriticality;
+                            b_Entity.BarcodeCodeId = itemCodes.BarCodeID;
+                            b_Entity.ActiveStatus = itemCodes.ActiveStatus;
+                            b_Entity.ModifiedBy = itemCodes.UserID;
+                            b_Entity.ModifiedOn = System.DateTime.Now;
+                            b_Entity.ModifiedTerminal = itemCodes.TerminalID;
+                            await db.SaveChangesAsync();
+                            dbContext.Commit();
+
+                            return new DO_ReturnParameter() { Status = true, Message = "Item Updated Successfully." };
+                        }
+                        else
+                        {
+                            return new DO_ReturnParameter() { Status = false, Message = "Business Entity not found." };
+
+                        }
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonRepository.GetValidationMessageFromException(ex));
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+    }
+}

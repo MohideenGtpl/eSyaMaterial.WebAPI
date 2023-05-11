@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HCP.Material.DO
+{
+   public class ReturnParameter
+    {
+        public bool Status { get; set; }
+        public bool success { get; set; }
+        public string Message { get; set; }
+        public int Vendorcode { get; set; }
+    }
+}

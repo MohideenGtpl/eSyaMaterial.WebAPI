@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace eSyaMaterial.DO
+{
+    public class DO_ItemConfigurartion
+    {
+        public List<DO_ItemGroup> l_ItemGroup { get; set; }
+        public List<DO_ItemCategory> l_ItemCategory { get; set; }
+        public List<DO_ItemSubCategory> l_ItemSubCategory { get; set; }
+        public List<DO_ItemCodes> l_ItemCodes { get; set; }
+    }
+
+    public class DO_ItemCodes
+    {
+        public int ItemCode { get; set; }
+        public int ItemGroup { get; set; }
+        public int ItemCategory { get; set; }
+        public int ItemSubCategory { get; set; }
+        public string ItemDescription { get; set; }
+        public int UnitOfMeasure { get; set; }
+        public int PackUnit { get; set; }
+        public string PackUnitDesc { get; set; }
+        public int PackSize { get; set; }
+        public string InventoryClass { get; set; }
+        public string ItemClass { get; set; }
+        public string ItemSource { get; set; }
+        public string ItemCriticality { get; set; }
+        public string BarCodeID { get; set; }
+        public bool UsageStatus { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+
+        public List<DO_eSyaParameter> l_FormParameter { get; set; }
+        //SKU Related properties
+        public int Skuid { get; set; }
+        //public int Skugroup { get; set; }
+        //public int Skucategory { get; set; }
+        //public int SkusubCategory { get; set; }
+        public string Skutype { get; set; }
+    }
+
+    public class DO_eSyaParameter
+    {
+        public int ParameterID { get; set; }
+        public bool ParmAction { get; set; }
+        public decimal ParmValue { get; set; }
+        public decimal ParmPerct { get; set; }
+        public string ParmDesc { get; set; }
+        public bool ActiveStatus { get; set; }
+    }
+
+    public class DO_ItemCustodianLink
+    {
+        public int BusinessKey { get; set; }
+        public int ItemCode { get; set; }
+        public bool IsAccountingStoreLinked { get; set; }
+        public bool IsItemCustodianLinked { get; set; }
+        public bool IsItemWhereUsedLinked { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+
+    public class DO_ItemBusinessLink
+    {
+        public int BusinessKey { get; set; }
+        public int ItemCode { get; set; }
+        public int AccountingStore { get; set; }
+        public string AccountingStoreDesc { get; set; }
+        public int CustodianStore { get; set; }
+        public string StoreDesc { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+
+    public class DO_ItemReorderLevel
+    {
+        public int BusinessKey { get; set; }
+        public int StoreCode { get; set; }
+        public int ItemCode { get; set; }
+        public string ItemDescription { get; set; }
+        public decimal MaximumStockLevel { get; set; }
+        public decimal ReorderLevel { get; set; }
+        public decimal SafetyStockLevel { get; set; }
+        public decimal MinimumStockLevel { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormID { get; set; }
+        public int UserID { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string TerminalID { get; set; }
+    }
+
+    //public class DO_SKUCodes
+    //{
+    //    public int Skuid { get; set; }
+    //    public int Skugroup { get; set; }
+    //    public int Skucategory { get; set; }
+    //    public int SkusubCategory { get; set; }
+    //    public string Skutype { get; set; }
+    //    public bool ActiveStatus { get; set; }
+    //    public string FormId { get; set; }
+    //    public int UserID { get; set; }
+    //    public DateTime CreatedOn { get; set; }
+    //    public string TerminalID { get; set; }
+    //}
+}

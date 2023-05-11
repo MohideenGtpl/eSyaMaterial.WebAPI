@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace eSyaMaterialMgmt.DL.Entities
+{
+    public partial class GtImitct
+    {
+        public int ItemCategory { get; set; }
+        public string ItemCategoryDesc { get; set; }
+        public decimal BudgetAmount { get; set; }
+        public decimal CommittmentAmount { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public int FormId { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedTerminal { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public string ModifiedTerminal { get; set; }
+    }
+}

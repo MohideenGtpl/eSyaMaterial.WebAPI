@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using eSyaMaterial.DO;
+using eSyaMaterial.IF;
+
+namespace eSyaMaterial.WebAPI.Controllers
+{
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class CommonController : ControllerBase
+    {
+        private readonly ICommonRepository _commonRepository;
+        public CommonController(ICommonRepository commonRepository)
+        {
+            _commonRepository = commonRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApplicationCodesByCodeType(int codeType)
+        {
+            var ds = await _commonRepository.GetApplicationCodesByCodeType(codeType);
+            return Ok(ds);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetApplicationCodesByCodeTypeList(List<int> l_codeType)
+        {
+            var ds = await _commonRepository.GetApplicationCodesByCodeTypeList(l_codeType);
+            return Ok(ds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetItemGroup()
+        {
+            var ds = await _commonRepository.GetItemGroup();
+            return Ok(ds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetItemCategory(int ItemGroup)
+        {
+            var ds = await _commonRepository.GetItemCategory(ItemGroup);
+            return Ok(ds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetItemSubCategory(int ItemCategory)
+        {
+            var ds = await _commonRepository.GetItemSubCategory(ItemCategory);
+            return Ok(ds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetItemCategoryForItemGroup(int ItemGroup)
+        {
+            var ds = await _commonRepository.GetItemCategoryForItemGroup(ItemGroup);
+            return Ok(ds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUnitofMeasure()
+        {
+            var ds = await _commonRepository.GetUnitofMeasure();
+            return Ok(ds);
+        }
+    }
+}

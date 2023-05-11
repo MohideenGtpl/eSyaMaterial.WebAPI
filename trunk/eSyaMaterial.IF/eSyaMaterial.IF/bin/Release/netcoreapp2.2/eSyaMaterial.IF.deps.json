@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "eSyaMaterial.IF/1.0.0": {
+        "dependencies": {
+          "eSyaMaterial.DO": "1.0.0"
+        },
+        "runtime": {
+          "eSyaMaterial.IF.dll": {}
+        }
+      },
+      "eSyaMaterial.DO/1.0.0": {
+        "runtime": {
+          "eSyaMaterial.DO.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "eSyaMaterial.IF/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "eSyaMaterial.DO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

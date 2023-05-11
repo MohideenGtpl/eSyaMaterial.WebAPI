@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace eSyaMaterial.DL.Entities
+{
+    public partial class GtEiitcd
+    {
+        public GtEiitcd()
+        {
+            GtEipait = new HashSet<GtEipait>();
+        }
+
+        public int ItemCode { get; set; }
+        public int ItemGroup { get; set; }
+        public int ItemCategory { get; set; }
+        public int ItemSubCategory { get; set; }
+        public string ItemDescription { get; set; }
+        public int UnitOfMeasure { get; set; }
+        public int PackUnit { get; set; }
+        public int PackSize { get; set; }
+        public string InventoryClass { get; set; }
+        public string ItemClass { get; set; }
+        public string ItemSource { get; set; }
+        public string ItemCriticality { get; set; }
+        public bool IsBusinessLinked { get; set; }
+        public bool IsHsnlinked { get; set; }
+        public string BarcodeCodeId { get; set; }
+        public bool UsageStatus { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormId { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedTerminal { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public string ModifiedTerminal { get; set; }
+
+        public virtual GtEiitct ItemCategoryNavigation { get; set; }
+        public virtual GtEiitgr ItemGroupNavigation { get; set; }
+        public virtual ICollection<GtEipait> GtEipait { get; set; }
+    }
+}
